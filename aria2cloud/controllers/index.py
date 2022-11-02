@@ -2,8 +2,9 @@ import json
 import os
 import shutil
 import traceback
+from urllib.parse import quote, quote_plus
 
-from flask import request, Response, render_template
+from flask import request, Response, render_template, send_from_directory
 
 from .. import app
 from ..models.aria2c.worker import Aria2cWorker
@@ -47,12 +48,45 @@ def downloads():
 
         if os.path.isfile(filepath):
             files.append({
-                "url": A2DLH.get_downloadable_file(os.path.splitext(name)[0]),
+                "url": f"/download/{os.path.splitext(name)[0]}",
                 "name": name,
                 "size": os.path.getsize(filepath)
             })
 
     return render_template("downloads.html", title=title, files=files)
+
+
+@app.route("/ls_raze/<path:path>", methods=["GET"])
+def ls_raze(path):
+    title = f"{path}"
+    files = []
+
+    for name in os.listdir(path):
+        filepath = f"{path}/{name}"
+
+        files.append({
+            "url": f"/dl_raze?dir={quote(path)}&name={quote(name)}",
+            "name": name,
+            "size": os.path.getsize(filepath)
+        })
+
+    return render_template("downloads.html", title=title, files=files)
+
+
+@app.route('/dl_raze')
+def dl_raze():
+    args = request.args
+
+    directory = args.get("dir")
+    name = args.get("name")
+
+    if directory and name:
+        try:
+            return send_from_directory(directory=directory, path=name, as_attachment=True)
+        except Exception as e:
+            return {"message": f"{e}"}
+
+    return {"message": "missing parameters"}
 
 
 @app.route("/heath", methods=["GET"])
