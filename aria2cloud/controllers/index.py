@@ -13,7 +13,7 @@ from ..models.utils import unpack_from_b64
 A2DLH = Aria2cWorker()
 
 
-@app.route("/download/<path:name>", methods=["POST"])
+@app.route("/download/<path:name>", methods=["GET", "POST"])
 def download_from_aria2(name):
     return A2DLH.get_downloadable_file(name)
 
@@ -89,7 +89,7 @@ def dl_raze():
     return {"message": "missing parameters"}
 
 
-@app.route("/heath", methods=["GET"])
+@app.route("/health", methods=["GET", "HEAD"])
 def heath():
     return "ok"
 

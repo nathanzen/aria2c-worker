@@ -56,7 +56,7 @@ class Aria2c:
         exists_checker = ["--continue=true", "--auto-file-renaming=false"][0]
 
         path = write_file(f"{self.aria2c_dump}/urls.txt", aria2c_config)
-        return_code = os.system(f"aria2c -x 8 -j 8 --check-certificate=false {exists_checker} -i \"{path}\"")
+        return_code = os.system(f"./aria2c -x 8 -j 8 --check-certificate=false {exists_checker} -i \"{path}\"")
         os.remove(path)
 
         if return_code not in [self.SUCCESS, self.WARNING, self.DOWNLOAD_EXISTS]:
