@@ -55,6 +55,11 @@ def downloads():
     return render_template("downloads.html", title=title, files=files)
 
 
+@app.route("/heath")
+def heath():
+    return "ok"
+
+
 @app.route("/")
 def index():
     current_dir = os.getcwd()
