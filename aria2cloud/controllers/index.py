@@ -64,4 +64,4 @@ def heath():
 def index():
     current_dir = os.getcwd()
     total, used, free = shutil.disk_usage(current_dir)
-    return f"{current_dir} = total={total:,}, used={used:.}, free={free,}"
+    return f"{current_dir}<br><br>total={total:,}<br> used={used:,} <br>free={free:,}"
