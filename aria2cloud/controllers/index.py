@@ -12,17 +12,17 @@ from ..models.utils import unpack_from_b64
 A2DLH = Aria2cWorker()
 
 
-@app.route("/download/<path:name>")
+@app.route("/download/<path:name>", methods=["GET"])
 def download_from_aria2(name):
     return A2DLH.get_downloadable_file(name)
 
 
-@app.route("/delete/<path:name>")
+@app.route("/delete/<path:name>", methods=["GET"])
 def delete_from_aria2(name):
     return A2DLH.delete_file(name)
 
 
-@app.route("/status/<path:name>")
+@app.route("/status/<path:name>", methods=["GET"])
 def status_from_aria2(name):
     return A2DLH.status(name)
 
@@ -37,7 +37,7 @@ def download_all_aria2():
         return Response(traceback.format_exc(), status=500)
 
 
-@app.route("/downloads")
+@app.route("/downloads", methods=["GET"])
 def downloads():
     title = f"Aria2c Downloads"
     files = []
@@ -55,12 +55,12 @@ def downloads():
     return render_template("downloads.html", title=title, files=files)
 
 
-@app.route("/heath")
+@app.route("/heath", methods=["GET"])
 def heath():
     return "ok"
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
     current_dir = os.getcwd()
     total, used, free = shutil.disk_usage(current_dir)
