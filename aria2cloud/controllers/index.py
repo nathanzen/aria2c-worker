@@ -13,17 +13,17 @@ from ..models.utils import unpack_from_b64
 A2DLH = Aria2cWorker()
 
 
-@app.route("/download/<path:name>", methods=["GET"])
+@app.route("/download/<path:name>", methods=["POST"])
 def download_from_aria2(name):
     return A2DLH.get_downloadable_file(name)
 
 
-@app.route("/delete/<path:name>", methods=["GET"])
+@app.route("/delete/<path:name>", methods=["POST"])
 def delete_from_aria2(name):
     return A2DLH.delete_file(name)
 
 
-@app.route("/status/<path:name>", methods=["GET"])
+@app.route("/status/<path:name>", methods=["POST"])
 def status_from_aria2(name):
     return A2DLH.status(name)
 
